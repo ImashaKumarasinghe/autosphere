@@ -8,6 +8,7 @@ import '../fuel/fuel_station_list_screen.dart';
 import '../ev/ev_charging_screen.dart';
 import '../parking/parking_search_screen.dart';
 import '../wash/wash_services_screen.dart';
+import 'notifications_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -40,9 +41,20 @@ class HomeScreen extends StatelessWidget {
         ),
         actions: [
           IconButton(
-            icon: const Icon(FontAwesomeIcons.bell, size: 20, color: AppColors.textPrimary),
-            onPressed: () {},
-          )
+  icon: const Icon(
+    FontAwesomeIcons.bell,
+    size: 20,
+    color: AppColors.textPrimary,
+  ),
+  onPressed: () {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => const NotificationsScreen(),
+      ),
+    );
+  },
+)
         ],
       ),
       body: ListView(
@@ -81,7 +93,7 @@ class HomeScreen extends StatelessWidget {
               physics: const NeverScrollableScrollPhysics(),
               mainAxisSpacing: 12,
               crossAxisSpacing: 12,
-              childAspectRatio: 0.95,
+              childAspectRatio: 0.80,
               children: [
                 CategoryCard(
                   label: 'Fuel Stations',
