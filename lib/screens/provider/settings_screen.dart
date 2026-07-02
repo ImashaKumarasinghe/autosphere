@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../services/app_state.dart';
 import '../../theme/app_theme.dart';
+import '../login_screen.dart';
 import 'availability_management_screen.dart';
 import 'customer_list_screen.dart';
 import 'provider_reviews_screen.dart';
@@ -193,9 +194,18 @@ class SettingsScreen extends StatelessWidget {
                   _menuItem(
                     context,
                     'Switch back to Customer Mode',
-                    FontAwesomeIcons.rightFromBracket,
+                    FontAwesomeIcons.rotate,
                     () {
                       appState.setRole(false);
+                    },
+                  ),
+                  const Divider(height: 1, indent: 20, endIndent: 20, color: Color(0xFFF1F3F5)),
+                  _menuItem(
+                    context,
+                    'Logout',
+                    FontAwesomeIcons.rightFromBracket,
+                    () {
+                      _showLogoutDialog(context);
                     },
                   ),
                 ],
@@ -220,6 +230,32 @@ class SettingsScreen extends StatelessWidget {
       title: Text(title, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: AppColors.textPrimary)),
       trailing: const Icon(Icons.chevron_right, size: 18, color: AppColors.textSecondary),
       onTap: onTap,
+    );
+  }
+
+  void _showLogoutDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('Logout'),
+        content: const Text('Are you sure you want to log out of AutoSphere?'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: const Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.pop(ctx); // dismiss dialog
+              Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(builder: (_) => const LoginScreen()),
+                (route) => false,
+              );
+            },
+            child: const Text('Logout', style: TextStyle(color: AppColors.statusClosed)),
+          ),
+        ],
+      ),
     );
   }
 }

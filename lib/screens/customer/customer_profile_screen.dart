@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../theme/app_theme.dart';
 import '../../services/app_state.dart';
+import '../login_screen.dart';
 
 class CustomerProfileScreen extends StatelessWidget {
   const CustomerProfileScreen({super.key});
@@ -140,13 +141,27 @@ class CustomerProfileScreen extends StatelessWidget {
             Card(
               child: Column(
                 children: [
-                  _menuItem(context, 'Transaction History', FontAwesomeIcons.clockRotateLeft),
+                  _menuItem(context, 'Transaction History', FontAwesomeIcons.clockRotateLeft, () {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Transaction history list is currently empty.')),
+                    );
+                  }),
                   const Divider(height: 1, indent: 20, endIndent: 20),
-                  _menuItem(context, 'Saved Stations', FontAwesomeIcons.heart),
+                  _menuItem(context, 'Saved Stations', FontAwesomeIcons.heart, () {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Saved stations list is empty.')),
+                    );
+                  }),
                   const Divider(height: 1, indent: 20, endIndent: 20),
-                  _menuItem(context, 'Settings', FontAwesomeIcons.gear),
+                  _menuItem(context, 'Settings', FontAwesomeIcons.gear, () {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Settings are managed via profile details.')),
+                    );
+                  }),
                   const Divider(height: 1, indent: 20, endIndent: 20),
-                  _menuItem(context, 'Logout', FontAwesomeIcons.rightFromBracket),
+                  _menuItem(context, 'Logout', FontAwesomeIcons.rightFromBracket, () {
+                    _showLogoutDialog(context);
+                  }),
                 ],
               ),
             ),
@@ -204,12 +219,38 @@ class CustomerProfileScreen extends StatelessWidget {
     );
   }
 
-  Widget _menuItem(BuildContext context, String title, IconData icon) {
+  Widget _menuItem(BuildContext context, String title, IconData icon, [VoidCallback? onTap]) {
     return ListTile(
       leading: Icon(icon, size: 18, color: AppColors.textSecondary),
       title: Text(title, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: AppColors.textPrimary)),
       trailing: const Icon(Icons.chevron_right, size: 18, color: AppColors.textSecondary),
-      onTap: () {},
+      onTap: onTap ?? () {},
+    );
+  }
+
+  void _showLogoutDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('Logout'),
+        content: const Text('Are you sure you want to log out of AutoSphere?'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: const Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.pop(ctx); // dismiss dialog
+              Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(builder: (_) => const LoginScreen()),
+                (route) => false,
+              );
+            },
+            child: const Text('Logout', style: TextStyle(color: AppColors.statusClosed)),
+          ),
+        ],
+      ),
     );
   }
 }

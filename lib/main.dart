@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'theme/app_theme.dart';
 import 'services/app_state.dart';
-import 'screens/main_navigation.dart';
+import 'screens/splash_screen.dart';
 
 void main() {
   runApp(
@@ -22,8 +22,9 @@ class AutoSphereApp extends StatelessWidget {
       title: 'AutoSphere',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
-      home: const MainNavigation(),
+      home: const SplashScreen(),
     );
   }
 }
+
 

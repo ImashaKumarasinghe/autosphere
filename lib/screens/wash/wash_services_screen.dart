@@ -47,8 +47,6 @@ class _WashServicesScreenState extends State<WashServicesScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final appState = Provider.of<AppState>(context);
-
     return Scaffold(
       appBar: AppBar(
         title: Column(

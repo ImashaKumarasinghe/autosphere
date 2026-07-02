@@ -9,7 +9,7 @@ import 'customer/customer_profile_screen.dart';
 import 'customer/map_view_screen.dart';
 import 'provider/provider_dashboard_screen.dart';
 import 'provider/booking_requests_screen.dart';
-import 'provider/offer_management_screen.dart';
+import 'provider/reports_screen.dart';
 import 'provider/settings_screen.dart';
 
 class MainNavigation extends StatefulWidget {
@@ -21,6 +21,7 @@ class MainNavigation extends StatefulWidget {
 
 class _MainNavigationState extends State<MainNavigation> {
   int _currentIndex = 0;
+  bool? _lastRole;
 
   // Screens for Customer Role
   final List<Widget> _customerScreens = [
@@ -34,7 +35,7 @@ class _MainNavigationState extends State<MainNavigation> {
   final List<Widget> _providerScreens = [
     const ProviderDashboardScreen(),
     const BookingRequestsScreen(),
-    const OfferManagementScreen(),
+    const ReportsScreen(),
     const SettingsScreen(),
   ];
 
@@ -43,6 +44,12 @@ class _MainNavigationState extends State<MainNavigation> {
     final appState = Provider.of<AppState>(context);
     final isProvider = appState.isProviderMode;
     final currentScreens = isProvider ? _providerScreens : _customerScreens;
+
+    // Reset tab index to Home / Dashboard when switching roles to avoid indexing anomalies
+    if (_lastRole != isProvider) {
+      _currentIndex = 0;
+      _lastRole = isProvider;
+    }
 
     return Scaffold(
       body: IndexedStack(
@@ -71,24 +78,43 @@ class _MainNavigationState extends State<MainNavigation> {
           unselectedItemColor: AppColors.textSecondary.withOpacity(0.6),
           selectedLabelStyle: const TextStyle(fontWeight: FontWeight.w700, fontSize: 12),
           unselectedLabelStyle: const TextStyle(fontWeight: FontWeight.w500, fontSize: 12),
-          items: const [
-            BottomNavigationBarItem(
-              icon: Icon(FontAwesomeIcons.house, size: 20),
-              label: 'Home',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(FontAwesomeIcons.calendarCheck, size: 20),
-              label: 'Bookings',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(FontAwesomeIcons.map, size: 20),
-              label: 'Map',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(FontAwesomeIcons.user, size: 20),
-              label: 'Profile',
-            ),
-          ],
+          items: isProvider
+              ? const [
+                  BottomNavigationBarItem(
+                    icon: Icon(FontAwesomeIcons.chartLine, size: 20),
+                    label: 'Dashboard',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(FontAwesomeIcons.listCheck, size: 20),
+                    label: 'Requests',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(FontAwesomeIcons.chartPie, size: 20),
+                    label: 'Reports',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(FontAwesomeIcons.gear, size: 20),
+                    label: 'Settings',
+                  ),
+                ]
+              : const [
+                  BottomNavigationBarItem(
+                    icon: Icon(FontAwesomeIcons.house, size: 20),
+                    label: 'Home',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(FontAwesomeIcons.calendarCheck, size: 20),
+                    label: 'Bookings',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(FontAwesomeIcons.map, size: 20),
+                    label: 'Map',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(FontAwesomeIcons.user, size: 20),
+                    label: 'Profile',
+                  ),
+                ],
         ),
       ),
     );

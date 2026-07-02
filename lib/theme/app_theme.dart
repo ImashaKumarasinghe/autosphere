@@ -12,7 +12,7 @@ class AppColors {
   static const Color secondary = Color(0xFF0D1117);
 
   // Background & Cards
-  static const Color background = Color(0xFFFDFBF9); // Soft warm off-white (Screenshot match)
+  static const Color background = Color(0xFFF8FAFC); // Soft blue-grey background
   static const Color card = Color(0xFFFFFFFF);
 
   // Status colors
