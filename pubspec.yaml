@@ -1,0 +1,43 @@
+name: autosphere
+description: AutoSphere Smart Vehicle Services System
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.6
+
+  # Fonts (Poppins for headings, Plus Jakarta Sans for body - per UI guidelines)
+  google_fonts: ^6.2.1
+
+  # Icons
+  font_awesome_flutter: ^10.7.0
+
+  # Maps & location (for Location Module / nearby services)
+  google_maps_flutter: ^2.6.1
+  geolocator: ^12.0.0
+
+  # State management (simple, beginner-friendly)
+  provider: ^6.1.2
+
+  # Networking (for connecting to your backend API later)
+  http: ^1.2.1
+
+  # Image handling (for profile photos, service images)
+  cached_network_image: ^3.3.1
+  image_picker: ^1.1.2
+
+  # Date/time pickers for booking slots
+  intl: ^0.19.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+
+flutter:
+  uses-material-design: true
